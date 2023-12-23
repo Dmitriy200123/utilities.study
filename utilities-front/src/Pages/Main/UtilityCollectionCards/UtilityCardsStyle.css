@@ -1,0 +1,6 @@
+.utilityCards{
+    display: flex;
+    max-width: 1525px;
+    height: 290px;
+    margin-left: 50px;
+}

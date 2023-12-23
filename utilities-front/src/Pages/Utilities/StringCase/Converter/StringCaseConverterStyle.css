@@ -1,0 +1,46 @@
+.stringCaseConverter {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 9fr;
+    width: 70%;
+    justify-content: center;
+    color: #e2dfdf;
+}
+
+.inputLabel {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    display: inline-block;
+    align-self: center;
+    vertical-align: center;
+}
+
+.inputString {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.stringCaseConvertedStrings {
+    grid-column: 1/3;
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    margin-top: 5px;
+}
+
+.stringCaseConvertedString{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    margin-top: 20px;
+    justify-content: start;
+}
+
+.stringCaseConvertedString__type, .stringCaseConvertedString__value{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

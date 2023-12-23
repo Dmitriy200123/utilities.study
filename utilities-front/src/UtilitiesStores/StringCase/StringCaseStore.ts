@@ -6,7 +6,7 @@ import {v4 as createUuid} from 'uuid';
 export class StringCaseStore {
     private static _instance: StringCaseStore;
 
-    stringToConvert: string = 'your string';
+    stringToConvert: string = 'example string';
     convertedStrings: IConvertedString[] = [];
 
     constructor() {
@@ -17,6 +17,7 @@ export class StringCaseStore {
             getConvertedStrings: action,
             setConvertedStrings: action,
         });
+        this.getConvertedStrings();
     }
 
     static get instance() {
@@ -30,16 +31,15 @@ export class StringCaseStore {
         this.getConvertedStrings();
     }
 
-    getConvertedStrings(){
+    getConvertedStrings() {
         ConverterTransport.convertString(this.stringToConvert).then(convertedStrings => {
             this.setConvertedStrings(convertedStrings.items?.map(e => {
-                return {id: createUuid(), value:  e.value, convertType: e.convertType.toString()
-                }
+                return {id: createUuid(), value: e.value, convertType: e.convertType.toString()}
             }));
         })
     }
 
-    setConvertedStrings(convertedStrings: IConvertedString[]){
+    setConvertedStrings(convertedStrings: IConvertedString[]) {
         this.convertedStrings = convertedStrings;
     }
 }

@@ -1,0 +1,27 @@
+.horizontalScroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.verticalScroll {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.horizontalScroll::-webkit-scrollbar {
+    height: 10px
+}
+
+.verticalScroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scroll:hover::-webkit-scrollbar-track {
+    background-color: #555;
+    border-radius: 20px;
+}
+
+.scroll:hover::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 20px;
+}
