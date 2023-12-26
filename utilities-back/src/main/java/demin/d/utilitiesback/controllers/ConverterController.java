@@ -1,16 +1,49 @@
 package demin.d.utilitiesback.controllers;
 
 import demin.d.utilitiesback.contracts.*;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/converters")
 public class ConverterController {
-    @PostMapping(value = "/string-case")
+    @PostMapping(value = "/number-notation")
+    public String ConvertToNumberNotation(@RequestBody NumberNotationRequest request, HttpServletResponse response) {
+        var numberNotations = GetNumberNotations();
+        if (!numberNotations.contains(request.getCurrentNotation())) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return String.format("Данная система счисления не поддерживается %s", request.getCurrentNotation());
+        }
+        if (!numberNotations.contains(request.getNewNotation())) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return String.format("Данная система счисления не поддерживается %s", request.getNewNotation());
+        }
+
+        Long valueAsLong = null;
+        try {
+            valueAsLong = Long.parseLong(request.getValueToNotation(), request.getCurrentNotation());
+        } catch (NumberFormatException ex) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return String.format("Исходное число %s не принадлежит системе счисления %s", request.getValueToNotation(), request.getCurrentNotation());
+        }
+
+        return Long.toString(valueAsLong, request.getNewNotation());
+    }
+
+    @GetMapping(value = "/number-notations")
+    public List<Integer> GetNumberNotations() {
+        return IntStream.range(Character.MIN_RADIX, Character.MAX_RADIX + 1)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping(value = "/base-64")
     public String ConvertStringToBase64AndBack(@RequestBody StringBase64ConversionRequest request) {
         if (request.getType() == StringBase64ConversionRequestType.toBase64)
             return Base64.getEncoder().encodeToString(request.getStringToConvert().getBytes());
@@ -40,12 +73,12 @@ public class ConverterController {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
             char currentChar = string.charAt(i);
-            if(!Character.isLetterOrDigit(currentChar)) {
+            if (!Character.isLetterOrDigit(currentChar)) {
                 isNextUpperCase = !result.isEmpty() || isNextUpperCase;
             } else {
                 result.append(
-                        isNextUpperCase? Character.toUpperCase(currentChar) :
-                                isPrevLowerCase ? currentChar: Character.toLowerCase(currentChar)
+                        isNextUpperCase ? Character.toUpperCase(currentChar) :
+                                isPrevLowerCase ? currentChar : Character.toLowerCase(currentChar)
                 );
                 isNextUpperCase = false;
             }
