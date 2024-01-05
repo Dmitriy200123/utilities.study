@@ -3,6 +3,7 @@ import {IConvertedStrings} from "./Contracts/IConvertedStrings";
 import {INumberNotationRequest} from "./Contracts/INumberNotationRequest";
 import {IStringBase64ConversionRequest} from "./Contracts/IStringBase64ConversionRequest";
 import {IBase64ConvertedString} from "./Contracts/IBase64ConvertedString";
+import {IConvertedNumber} from "./Contracts/IConvertedNumber";
 
 export class ConverterTransport extends ApiTransport {
     private static readonly _basePath: string = 'converters/';
@@ -16,7 +17,7 @@ export class ConverterTransport extends ApiTransport {
     static convertToNumberNotation(request: INumberNotationRequest) {
         return this.post(`${this._basePath}number-notation`,
             request,
-            result => result as string);
+            result => result as IConvertedNumber);
     }
 
     static getNumberNotations() {
