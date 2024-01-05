@@ -11,6 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface RequestStatisticsRepository extends JpaRepository<RequestInfo, UUID> {
-    @Query("select new demin.d.utilitiesback.repositories.statistics.entities.RequestStatistics(info.requestType, count(*)) from RequestInfo info group by info.requestType, count(*) order by count(*) desc limit 10")
+    @Query("select new demin.d.utilitiesback.repositories.statistics.entities.RequestStatistics(info.requestType, count(*)) from RequestInfo info group by info.requestType order by count(*) desc limit 10")
     List<RequestStatistics> getRequestStatistics();
 }
