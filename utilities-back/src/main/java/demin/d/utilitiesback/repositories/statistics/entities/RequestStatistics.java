@@ -1,8 +1,8 @@
 package demin.d.utilitiesback.repositories.statistics.entities;
 
 public class RequestStatistics {
-    private String requestType;
-    private long count;
+    private final String requestType;
+    private final long count;
 
     public RequestStatistics(String requestType, long count) {
         this.requestType = requestType;

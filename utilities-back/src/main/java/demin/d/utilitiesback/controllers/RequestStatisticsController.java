@@ -11,11 +11,11 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/statistics")
+@RequestMapping("/request-statistics")
 public class RequestStatisticsController {
     private RequestStatisticsRepository requestStatisticsRepository;
 
-    @GetMapping(value = "/top-10-requests")
+    @GetMapping(value = "/top-requests")
     public List<RequestStatistics> GetTop10Requests() {
         return requestStatisticsRepository.getRequestStatistics();
     }
