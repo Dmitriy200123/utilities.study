@@ -3,9 +3,15 @@ import * as React from "react";
 import "./Header.css"
 import {PageNavButton} from "./PageNavButtons/PageNavButton";
 import {PageNavDirection} from "./PageNavButtons/PageNavDirection";
+import {Link} from "react-router-dom";
 
-export const Header = observer(() => {
+export interface IHeaderProps {
+    needPageNavButton: boolean,
+}
+
+export const Header = observer((props: IHeaderProps) => {
     return <header className="header">
-        <PageNavButton pageNavDirection={PageNavDirection.Previous} label='<'/>
+        {props.needPageNavButton && <PageNavButton pageNavDirection={PageNavDirection.Previous} label='<'/>}
+        <Link to={'/request-statistics'}>Request statistics</Link>
     </header>
 });

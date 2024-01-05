@@ -4,6 +4,7 @@
     align-items: center;
     column-gap: 15px;
     padding: 5px;
+    height: 40px;
 }
 
 .pageNavButton {

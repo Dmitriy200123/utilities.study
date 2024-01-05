@@ -5,9 +5,21 @@ export class UtilitiesTransport {
     private static _utilities: IUtilityInfo[] = [
         {
             id: createUuid() as string,
-            name: 'StringCase',
+            name: 'String Case',
             description: 'Convert string to another case',
-            link: '/string-case'
+            link: '/string-case',
+        },
+        {
+            id: createUuid() as string,
+            name: 'Number Notations',
+            description: 'Convert number to certain notation',
+            link: '/number-notation',
+        },
+        {
+            id: createUuid() as string,
+            name: 'Base64',
+            description: 'Convert string to base64 and back',
+            link: '/base-64',
         },
     ];
 

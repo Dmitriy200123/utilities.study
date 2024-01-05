@@ -10,7 +10,7 @@
     width: 200px;
     min-width: 200px;
     max-width: 200px;
-    height: 250px;
+    height: 300px;
     background-color: #05071c;
     flex-wrap: wrap;
     justify-items: center;
@@ -24,18 +24,26 @@
 .utilityCard__title, .utilityCard__description {
     text-align: center;
     max-width: 175px;
-    text-overflow: ellipsis;
-    overflow: hidden;
     align-self: start;
 }
 
 .utilityCard__title{
+    white-space: normal;
+    height: 50px;
+}
+
+.utilityCard__description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.utilityCard__title {
     font-size: 30px;
     color: #d9d5d5;
     font-weight: bold;
 }
 
-.utilityCard__description{
+.utilityCard__description {
     font-size: 20px;
     color: #dacbcb;
     margin-top: 30px;
