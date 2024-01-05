@@ -23,17 +23,17 @@ public class ConverterController {
     }
 
     @PostMapping(value = "/number-notation")
-    public String ConvertToNumberNotation(@RequestBody NumberNotationRequest numberNotationRequest, HttpServletRequest request, HttpServletResponse response) {
+    public ConvertedNumber ConvertToNumberNotation(@RequestBody NumberNotationRequest numberNotationRequest, HttpServletRequest request, HttpServletResponse response) {
         saveRequestInfo(request);
 
         var numberNotations = GetNumberNotations(null);
         if (!numberNotations.contains(numberNotationRequest.getCurrentNotation())) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return String.format("Данная система счисления не поддерживается %s", numberNotationRequest.getCurrentNotation());
+            return new ConvertedNumber(String.format("Данная система счисления не поддерживается %s", numberNotationRequest.getCurrentNotation()));
         }
         if (!numberNotations.contains(numberNotationRequest.getNewNotation())) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return String.format("Данная система счисления не поддерживается %s", numberNotationRequest.getNewNotation());
+            return new ConvertedNumber(String.format("Данная система счисления не поддерживается %s", numberNotationRequest.getNewNotation()));
         }
 
         long valueAsLong;
@@ -41,10 +41,10 @@ public class ConverterController {
             valueAsLong = Long.parseLong(numberNotationRequest.getValueToNotation(), numberNotationRequest.getCurrentNotation());
         } catch (NumberFormatException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return String.format("Исходное число %s не принадлежит системе счисления %s", numberNotationRequest.getValueToNotation(), numberNotationRequest.getCurrentNotation());
+            return new ConvertedNumber(String.format("Исходное число %s не принадлежит системе счисления %s", numberNotationRequest.getValueToNotation(), numberNotationRequest.getCurrentNotation()));
         }
 
-        return Long.toString(valueAsLong, numberNotationRequest.getNewNotation());
+        return new ConvertedNumber(Long.toString(valueAsLong, numberNotationRequest.getNewNotation()));
     }
 
 
