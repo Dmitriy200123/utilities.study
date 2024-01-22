@@ -21,7 +21,7 @@ public class RequestStatisticsController {
         return requestStatisticsService.getTopRequests(10);
     }
 
-    @GetMapping(value = "/top-user")
+    @GetMapping(value = "/top-users")
     public List<UserRequestStatistics> GetTop10Users() {
         return requestStatisticsService.getTopUsers(10);
     }
