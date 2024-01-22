@@ -1,7 +1,7 @@
 package demin.d.utilitiesback.controllers;
 
+import demin.d.utilitiesback.contracts.RequestStatistics;
 import demin.d.utilitiesback.repositories.statistics.RequestStatisticsRepository;
-import demin.d.utilitiesback.repositories.statistics.entities.RequestStatistics;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/request-statistics")
 public class RequestStatisticsController {
-    private RequestStatisticsRepository requestStatisticsRepository;
+    private final RequestStatisticsRepository requestStatisticsRepository;
+
+    public RequestStatisticsController(RequestStatisticsRepository requestStatisticsRepository) {
+        this.requestStatisticsRepository = requestStatisticsRepository;
+    }
 
     @GetMapping(value = "/top-requests")
     public List<RequestStatistics> GetTop10Requests() {
-        return requestStatisticsRepository.getRequestStatistics();
+        return requestStatisticsRepository
+                .getRequestStatistics()
+                .stream()
+                .map(e -> {
+                    var info = new RequestStatistics();
+                    info.setRequestType(e.getRequestType());
+                    info.setCount(e.getCount());
+                    return info;
+                })
+                .toList();
     }
 }

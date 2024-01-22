@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class ConvertedString {
-    private String value;
+    private final String value;
     private final StringConvertType convertType;
 
     public ConvertedString(String value, StringConvertType convertType){

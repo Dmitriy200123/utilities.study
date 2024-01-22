@@ -1,5 +1,8 @@
 package demin.d.utilitiesback.repositories.statistics.entities;
 
+import lombok.Getter;
+
+@Getter
 public class RequestStatistics {
     private final String requestType;
     private final long count;

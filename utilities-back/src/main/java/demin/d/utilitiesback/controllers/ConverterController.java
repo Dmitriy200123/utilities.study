@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 @RestController
 @RequestMapping("/converters")
 public class ConverterController {
-    private RequestStatisticsRepository requestStatisticsRepository;
+    private final RequestStatisticsRepository requestStatisticsRepository;
 
     public ConverterController(RequestStatisticsRepository requestStatisticsRepository) {
         this.requestStatisticsRepository = requestStatisticsRepository;
@@ -58,12 +58,18 @@ public class ConverterController {
     }
 
     @PostMapping(value = "/base-64")
-    public String ConvertStringToBase64AndBack(@RequestBody StringBase64ConversionRequest base64ConversionRequest, HttpServletRequest request) {
+    public Base64ConvertedString ConvertStringToBase64AndBack(@RequestBody StringBase64ConversionRequest base64ConversionRequest, HttpServletRequest request) {
         saveRequestInfo(request);
 
         if (base64ConversionRequest.getType() == StringBase64ConversionRequestType.toBase64)
-            return Base64.getEncoder().encodeToString(base64ConversionRequest.getStringToConvert().getBytes());
-        return new String(Base64.getDecoder().decode(base64ConversionRequest.getStringToConvert()));
+            return new Base64ConvertedString(Base64.getEncoder().encodeToString(base64ConversionRequest.getStringToConvert().getBytes()));
+        String result;
+        try {
+            result = new String(Base64.getDecoder().decode(base64ConversionRequest.getStringToConvert()));
+        } catch (Exception e) {
+            result = base64ConversionRequest.getStringToConvert();
+        }
+        return new Base64ConvertedString(result);
     }
 
     @PostMapping(value = "/string-case")
