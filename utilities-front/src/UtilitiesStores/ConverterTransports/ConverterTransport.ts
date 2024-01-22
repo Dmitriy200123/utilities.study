@@ -6,7 +6,7 @@ import {IBase64ConvertedString} from "./Contracts/IBase64ConvertedString";
 import {IConvertedNumber} from "./Contracts/IConvertedNumber";
 
 export class ConverterTransport extends ApiTransport {
-    private static readonly _basePath: string = 'converters/';
+    private static readonly _basePath: string = 'api/converters/';
 
     static convertString(stringToConvert: string) {
         return this.post(`${this._basePath}string-case`,

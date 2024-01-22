@@ -1,3 +1,5 @@
+import {TokensStorage} from "../AuthTokenStorages/TokensStorage";
+
 export class ApiTransport {
     private static Url = 'http://localhost:8080/';
 
@@ -25,13 +27,15 @@ export class ApiTransport {
                 method: method,
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${TokensStorage.accessToken as string}`,
                 },
             } : {
                 method: method,
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${TokensStorage.accessToken as string}`,
                 },
                 body: JSON.stringify(body),
             };

@@ -9,20 +9,25 @@ import {Base64Page} from "./Pages/Utilities/Base64/Base64Page";
 import {NumberNotationPage} from "./Pages/Utilities/NumberNotation/NumberNotationPage";
 import {MessageStore} from "./MessageStores/MessageStore";
 import {Messages} from "./Pages/Common/Messages/Messages";
+import {LoginPage} from "./Pages/Login/LoginPage";
+import {AuthCheck} from "./Pages/Common/AuthCheck/AuthCheck";
+import {LoginCallback} from "./Pages/Login/LoginCallback";
 
 export const App = observer(() => {
-  return (
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path='/' element={<MainPage/>}/>
-            <Route path='/string-case' element={<StringCasePage/>}/>
-            <Route path='/number-notation' element={<NumberNotationPage/>}/>
-            <Route path='/base-64' element={<Base64Page/>}/>
-            <Route path='/request-statistics' element={<RequestStatisticsPage/>}/>
-          </Routes>
-            {MessageStore.instance.messages.length !== 0 && <Messages/>}
-        </div>
-      </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <Routes>
+                    <Route path='/login' element={<LoginPage/>}/>
+                    <Route path='/login-callback' element={<LoginCallback/>}/>
+                    <Route path='/' element={<AuthCheck><MainPage/></AuthCheck>}/>
+                    <Route path='/string-case' element={<AuthCheck><StringCasePage/></AuthCheck>}/>
+                    <Route path='/number-notation' element={<AuthCheck><NumberNotationPage/></AuthCheck>}/>
+                    <Route path='/base-64' element={<AuthCheck><Base64Page/></AuthCheck>}/>
+                    <Route path='/request-statistics' element={<AuthCheck><RequestStatisticsPage/></AuthCheck>}/>
+                </Routes>
+                {MessageStore.instance.messages.length !== 0 && <Messages/>}
+            </div>
+        </Router>
+    );
 });
