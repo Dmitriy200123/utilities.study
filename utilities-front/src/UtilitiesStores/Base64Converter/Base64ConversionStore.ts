@@ -46,7 +46,6 @@ export class Base64ConversionStore {
                     ? StringBase64ConversionRequestType.toBase64
                     : StringBase64ConversionRequestType.toString,
             });
-            console.log(convertedString);
 
             this.setBase64ConvertedString(convertedString.value);
         } catch {

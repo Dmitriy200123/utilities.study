@@ -9,6 +9,15 @@
     color: #e2dfdf;
 }
 
+.inputLabel, .inputString, .stringCaseConvertedString__type, .stringCaseConvertedString__value {
+    font-size: 25px;
+    height: 35px;
+}
+
+.inputLabel, .stringCaseConvertedString__type {
+    color: #b3b3b3;
+}
+
 .inputLabel {
     grid-column: 1/2;
     grid-row: 1/2;
@@ -20,6 +29,8 @@
 .inputString {
     grid-column: 2/3;
     grid-row: 1/2;
+    background-color: white;
+    border-radius: 5px;
 }
 
 .stringCaseConvertedStrings {
@@ -31,7 +42,7 @@
     margin-top: 5px;
 }
 
-.stringCaseConvertedString{
+.stringCaseConvertedString {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
@@ -39,8 +50,13 @@
     justify-content: start;
 }
 
-.stringCaseConvertedString__type, .stringCaseConvertedString__value{
+.stringCaseConvertedString__type, .stringCaseConvertedString__value {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.stringCaseConvertedString__value {
+    background-color: #e2dfdf;
+    border-radius: 5px;
 }

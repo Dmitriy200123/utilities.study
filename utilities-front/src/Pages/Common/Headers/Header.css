@@ -10,3 +10,14 @@
 .pageNavButton {
     margin-left: 20px;
 }
+
+.requestStatisticsLink {
+    margin-left: auto;
+    margin-right: 20px;
+    text-decoration: none;
+    color: #e2dfdf;
+}
+
+.requestStatisticsLink:hover {
+    color: #ffffff;
+}

@@ -12,6 +12,6 @@ export interface IHeaderProps {
 export const Header = observer((props: IHeaderProps) => {
     return <header className="header">
         {props.needPageNavButton && <PageNavButton pageNavDirection={PageNavDirection.Previous} label='<'/>}
-        <Link to={'/request-statistics'}>Request statistics</Link>
+        <Link className='requestStatisticsLink' to={'/request-statistics'}>Request statistics</Link>
     </header>
 });

@@ -9,7 +9,7 @@ export class RequestStatisticsStore {
 
     fetchingType: RequestStatisticsFetchingType = RequestStatisticsFetchingType.byRequest;
     requestStatistics: IRequestStatistics[] = [];
-    needFetching: boolean = true;
+    needFetching: boolean = false;
 
     constructor() {
         makeObservable(this, {
@@ -22,7 +22,7 @@ export class RequestStatisticsStore {
 
         autorun(() => {
             if (this.needFetching) {
-                if (this.fetchingType == RequestStatisticsFetchingType.byRequest) {
+                if (this.fetchingType === RequestStatisticsFetchingType.byRequest) {
                     this.getRequestStatistics().finally(() => {
                         this.setFetching(false);
                     })
@@ -53,7 +53,7 @@ export class RequestStatisticsStore {
     }
 
     setRequestStatistics(requestStatistics: IRequestStatistics[]) {
-        this.requestStatistics = [...this.requestStatistics, ...requestStatistics];
+        this.requestStatistics = requestStatistics;
     }
 
     setFetching(value: boolean) {
