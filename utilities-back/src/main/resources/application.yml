@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:utilities.db
+    driver-class-name: org.sqlite.JDBC
+    username: admin
+    password: admin
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: yourclientid
+            clientSecret: yoursecret
+            scope: read:user, user:email
+
+app:
+  jwt:
+    # Signing key for HS512 algorithm
+    secret: pKX4MziTvkzdndXJbBVjByatVDh2SsAP6hCJOlFJZFZsSaSZkhOMt89vBN4e+dLpZi5f4ycAGcWr
+    ttl:
+      minutes: 30
+  oauth2:
+    redirectUri: http://localhost:3000/login-callback
+  cors:
+    allowed-origins: http://localhost:3000
+
+logging:
+  level:
+    org: warn

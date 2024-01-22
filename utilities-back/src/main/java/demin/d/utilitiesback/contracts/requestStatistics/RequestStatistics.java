@@ -1,4 +1,4 @@
-package demin.d.utilitiesback.contracts;
+package demin.d.utilitiesback.contracts.requestStatistics;
 
 import lombok.Getter;
 import lombok.Setter;

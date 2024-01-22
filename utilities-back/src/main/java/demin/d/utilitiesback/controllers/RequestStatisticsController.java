@@ -1,35 +1,28 @@
 package demin.d.utilitiesback.controllers;
 
-import demin.d.utilitiesback.contracts.RequestStatistics;
-import demin.d.utilitiesback.repositories.statistics.RequestStatisticsRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import demin.d.utilitiesback.contracts.requestStatistics.RequestStatistics;
+import demin.d.utilitiesback.contracts.requestStatistics.UserRequestStatistics;
+import demin.d.utilitiesback.services.requestStatistics.RequestStatisticsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/request-statistics")
+@RequestMapping("api/request-statistics")
+@RequiredArgsConstructor
 public class RequestStatisticsController {
-    private final RequestStatisticsRepository requestStatisticsRepository;
-
-    public RequestStatisticsController(RequestStatisticsRepository requestStatisticsRepository) {
-        this.requestStatisticsRepository = requestStatisticsRepository;
-    }
+    private final RequestStatisticsService requestStatisticsService;
 
     @GetMapping(value = "/top-requests")
     public List<RequestStatistics> GetTop10Requests() {
-        return requestStatisticsRepository
-                .getRequestStatistics()
-                .stream()
-                .map(e -> {
-                    var info = new RequestStatistics();
-                    info.setRequestType(e.getRequestType());
-                    info.setCount(e.getCount());
-                    return info;
-                })
-                .toList();
+        return requestStatisticsService.getTopRequests(10);
+    }
+
+    @GetMapping(value = "/top-user")
+    public List<UserRequestStatistics> GetTop10Users() {
+        return requestStatisticsService.getTopUsers(10);
     }
 }

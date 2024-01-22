@@ -1,4 +1,4 @@
-package demin.d.utilitiesback.contracts;
+package demin.d.utilitiesback.contracts.utilities.base64;
 
 import lombok.Getter;
 import lombok.Setter;
