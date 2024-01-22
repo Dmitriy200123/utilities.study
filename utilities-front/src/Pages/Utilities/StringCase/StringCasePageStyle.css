@@ -1,0 +1,21 @@
+.stringCasePage__mainPageLink{
+    position: absolute;
+    top: 3%;
+    left: 2%;
+    padding: 10px;
+    display: inline-block;
+    text-decoration: none;
+    color: #e2dfdf;
+    height: 30px;
+    width: 50px;
+    border: solid #05071c 2px;
+    text-align: center;
+    border-radius: 20px;
+    background: #0d0f21;
+}
+
+.stringCasePage__mainPageLink:hover {
+    border-style: dashed;
+    background: #191e28;
+    color: #dacbcb;
+}

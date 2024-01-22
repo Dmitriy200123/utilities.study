@@ -1,0 +1,28 @@
+.pageNavButton, .collectionNavItem {
+    background-color: #231b1b;
+    border: 1px solid #231b1b;
+}
+
+.pageNavButton {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.pageNavButton:hover {
+    border-color: white;
+    border-style: dashed;
+}
+
+.pageNavButton__label, .collectionNavItem {
+    color: #b3b3b3;
+    line-height: 35px;
+}
+
+.collectionNavItem {
+    width: 120px;
+    border-radius: 20px;
+    text-align: center;
+    text-decoration: none;
+}
+

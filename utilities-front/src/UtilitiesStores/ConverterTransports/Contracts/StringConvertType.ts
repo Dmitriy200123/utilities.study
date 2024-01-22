@@ -1,4 +1,7 @@
 export enum StringConvertType{
-    upperCase = 1,
-    lowerCase = 2,
+    upperCase = 'Upper case',
+    lowerCase = 'Lower case',
+    camelCase = 'Camel case',
+    snakeCase = 'Snake case',
+    capitalCase = 'Capital case',
 }

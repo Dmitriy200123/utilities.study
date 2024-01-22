@@ -1,0 +1,11 @@
+.header {
+    background: linear-gradient(#240a15, #070700, #000000);
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    padding: 5px;
+}
+
+.pageNavButton {
+    margin-left: 20px;
+}
