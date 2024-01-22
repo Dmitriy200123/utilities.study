@@ -30,9 +30,7 @@ public class ConverterController {
 
 
     @GetMapping(value = "/number-notations")
-    public List<Integer> GetNumberNotations(HttpServletRequest request) {
-        requestStatisticsService.saveRequestInfo(request);
-
+    public List<Integer> GetNumberNotations() {
         return convertersService.GetNumberNotations();
     }
 
