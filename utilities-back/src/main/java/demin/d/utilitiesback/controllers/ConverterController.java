@@ -1,11 +1,9 @@
 package demin.d.utilitiesback.controllers;
 
-import demin.d.utilitiesback.contracts.ConvertedString;
-import demin.d.utilitiesback.contracts.ConvertedStrings;
-import demin.d.utilitiesback.contracts.StringConversionRequest;
-import demin.d.utilitiesback.contracts.StringConvertType;
+import demin.d.utilitiesback.contracts.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -13,7 +11,14 @@ import java.util.List;
 @RequestMapping("/converters")
 public class ConverterController {
     @PostMapping(value = "/string-case")
-    public ConvertedStrings ConvertedStrings (@RequestBody StringConversionRequest request) {
+    public String ConvertStringToBase64AndBack(@RequestBody StringBase64ConversionRequest request) {
+        if (request.getType() == StringBase64ConversionRequestType.toBase64)
+            return Base64.getEncoder().encodeToString(request.getStringToConvert().getBytes());
+        return new String(Base64.getDecoder().decode(request.getStringToConvert()));
+    }
+
+    @PostMapping(value = "/string-case")
+    public ConvertedStrings ConvertStringToCase(@RequestBody StringConversionRequest request) {
         var upperCase = new ConvertedString(request.getStringToConvert().toUpperCase(), StringConvertType.upperCase);
         var lowerCase = new ConvertedString(request.getStringToConvert().toLowerCase(), StringConvertType.lowerCase);
         var camelCase = new ConvertedString(toCamelCase(request.getStringToConvert(), true), StringConvertType.camelCase);
@@ -25,7 +30,7 @@ public class ConverterController {
     private String toSnakeCase(String string) {
         var result = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
-            result.append(Character.isLetterOrDigit(string.charAt(i)) ? Character.toLowerCase(string.charAt(i)) : '_');;
+            result.append(Character.isLetterOrDigit(string.charAt(i)) ? Character.toLowerCase(string.charAt(i)) : '_');
         }
         return result.toString();
     }
