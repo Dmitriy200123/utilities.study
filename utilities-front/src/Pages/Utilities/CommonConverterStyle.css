@@ -1,0 +1,32 @@
+.converterItem__label {
+    color: #e2dfdf;
+    height: 35px;
+    line-height: 35px;
+}
+
+.converterItem__label, .converterItem__param {
+    font-size: 25px;
+}
+
+.converterItem__param {
+    background-color: white;
+}
+
+.converterItem:last-of-type > .converterItem__param {
+    background-color: #e2dfdf;
+}
+
+.converterItem {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    margin-top: 20px;
+    justify-content: start;
+}
+
+.converterItem__param {
+    border-radius: 5px;
+}

@@ -3,7 +3,7 @@ import {Header} from "../../Common/Headers/Header";
 import React from "react";
 import {Base64ConversionStore} from "../../../UtilitiesStores/Base64Converter/Base64ConversionStore";
 import {Base64ConversionType} from "../../../UtilitiesStores/Base64Converter/Contracts/Base64ConversionType";
-import './Base64PageStyle.css';
+import '../CommonConverterStyle.css';
 
 export const Base64Page = observer(() => {
     return (
@@ -11,9 +11,9 @@ export const Base64Page = observer(() => {
             <Header needPageNavButton={true}/>
             <main className="pageContent">
                 <h1 className='pageContent__title'>Base64 converter</h1>
-                <div className='base64ConverterItem'>
-                    <label className='base64ConversionTypeSelectLabel'>Select conversion type:</label>
-                    <select className='base64ConversionTypeSelect' value={Base64ConversionStore.instance.conversionType}
+                <div className='converterItem'>
+                    <label className='converterItem__label'>Select conversion type:</label>
+                    <select className='converterItem__param' value={Base64ConversionStore.instance.conversionType}
                             onChange={e => {
                                 Base64ConversionStore.instance.setConversionType(e.target.value as Base64ConversionType);
                             }}>
@@ -22,18 +22,18 @@ export const Base64Page = observer(() => {
                     </select>
                 </div>
 
-                <div className='base64ConverterItem'>
-                    <label className='base64StringToConvertInputLabel'>Your string:</label>
-                    <input className='base64StringToConvertInput' value={Base64ConversionStore.instance.stringToConvert}
+                <div className='converterItem'>
+                    <label className='converterItem__label'>Your string:</label>
+                    <input className='converterItem__param' value={Base64ConversionStore.instance.stringToConvert}
                            onChange={e => {
                                Base64ConversionStore.instance.setStringToConvert(e.target.value);
                            }
                            }/>
                 </div>
 
-                <div className='base64ConverterItem'>
-                    <label className='base64ConvertedStringLabel'>Result:</label>
-                    <input className='base64ConvertedString' value={Base64ConversionStore.instance.convertedString}
+                <div className='converterItem'>
+                    <label className='converterItem__label'>Result:</label>
+                    <input className='converterItem__param' value={Base64ConversionStore.instance.convertedString}
                            disabled={true}/>
                 </div>
             </main>

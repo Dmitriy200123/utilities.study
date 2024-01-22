@@ -12,6 +12,7 @@
 .inputLabel, .inputString, .stringCaseConvertedString__type, .stringCaseConvertedString__value {
     font-size: 25px;
     height: 35px;
+    line-height: 35px;
 }
 
 .inputLabel, .stringCaseConvertedString__type {

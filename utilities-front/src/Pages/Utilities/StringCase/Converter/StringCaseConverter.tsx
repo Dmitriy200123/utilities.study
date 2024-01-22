@@ -6,7 +6,7 @@ import "./StringCaseConverterStyle.css";
 export const StringCaseConverter = observer((props: { className: string }) => {
     return (
         <div className={props.className}>
-            <label className='inputLabel'>Your string</label>
+            <label className='inputLabel'>Your string:</label>
             <input className='inputString' type='text' value={StringCaseStore.instance.stringToConvert}
                    onChange={e => StringCaseStore.instance.convert(e.target.value)}></input>
             <div className={'stringCaseConvertedStrings'}>
