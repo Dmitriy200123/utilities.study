@@ -4,6 +4,7 @@ import "./Header.css"
 import {PageNavButton} from "./PageNavButtons/PageNavButton";
 import {PageNavDirection} from "./PageNavButtons/PageNavDirection";
 import {Link} from "react-router-dom";
+import {RequestStatisticsStore} from "../../../RequestStatiscticsStores/RequestStatisticsStore";
 
 export interface IHeaderProps {
     needPageNavButton: boolean,
@@ -12,6 +13,7 @@ export interface IHeaderProps {
 export const Header = observer((props: IHeaderProps) => {
     return <header className="header">
         {props.needPageNavButton && <PageNavButton pageNavDirection={PageNavDirection.Previous} label='<'/>}
-        <Link className='requestStatisticsLink' to={'/request-statistics'}>Request statistics</Link>
+        <Link className='requestStatisticsLink' to={'/request-statistics'}
+              onClick={() => RequestStatisticsStore.instance.setNeedFetching(true)}>Request statistics</Link>
     </header>
 });

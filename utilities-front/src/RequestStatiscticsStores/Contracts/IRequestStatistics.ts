@@ -1,7 +1,7 @@
 export interface IRequestStatistics {
     id: string;
 
-    requestType: string;
+    name: string;
 
     count: number;
 }

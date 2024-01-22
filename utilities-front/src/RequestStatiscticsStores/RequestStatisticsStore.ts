@@ -1,9 +1,10 @@
-import {action, makeObservable, observable} from "mobx";
+import {action, autorun, makeObservable, observable} from "mobx";
 import {RequestStatisticsTransport} from "./RequestStatisticsTransports/RequestStatisticsTransport";
 import {IRequestStatistics} from "./Contracts/IRequestStatistics";
 import {RequestStatisticsType} from "./Contracts/RequestStatisticsType";
 import {v4 as createUuid} from 'uuid';
 import {MessageStore} from "../MessageStores/MessageStore";
+import {IRequestStatisticsInfo} from "./RequestStatisticsTransports/Contracts/IRequestStatisticsInfo";
 
 export class RequestStatisticsStore {
     private static _instance: RequestStatisticsStore;
@@ -22,9 +23,14 @@ export class RequestStatisticsStore {
             needFetching: observable,
             getRequestStatistics: action,
             setRequestStatistics: action,
+            setNeedFetching: action,
         });
 
-        this.getRequestStatistics();
+        autorun(() => {
+            if (this.needFetching) {
+                this.getRequestStatistics();
+            }
+        })
     }
 
     static get instance() {
@@ -34,15 +40,26 @@ export class RequestStatisticsStore {
     }
 
     getRequestStatistics() {
-        RequestStatisticsTransport
-            .getTopRequests()
-            .then(requestStatistics => this.setRequestStatistics(requestStatistics.map(e => {
+        const request = this.requestStatisticsType === RequestStatisticsType.byRequest
+            ? RequestStatisticsTransport.getTopRequests()
+                .then(requestStatistics => this.setRequestStatistics(requestStatistics.map(e => {
+                    return {
+                        id: createUuid() as string,
+                        name: e.requestType,
+                        count: e.count
+                    }
+                })))
+            : RequestStatisticsTransport.getTopUsers().then(requestStatistics => this.setRequestStatistics(requestStatistics.map(e => {
                 return {
                     id: createUuid() as string,
-                    ...e,
+                    name: e.userName,
+                    count: e.count,
                 }
-            })))
-            .catch(() => this.__messageStore.addErrorMessage('Не удалось загрузить статистику по запросам'));
+            })));
+
+        request
+            .catch(() => this.__messageStore.addErrorMessage('Не удалось загрузить статистику по запросам'))
+            .finally(() => this.setNeedFetching(false));
     }
 
     setRequestStatistics(requestStatistics: IRequestStatistics[]) {
@@ -51,6 +68,10 @@ export class RequestStatisticsStore {
 
     setRequestStatisticsType(value: RequestStatisticsType) {
         this.requestStatisticsType = value;
-        this.getRequestStatistics();
+        this.setNeedFetching(true);
+    }
+
+    setNeedFetching(needFetching: boolean) {
+        this.needFetching = needFetching;
     }
 }
