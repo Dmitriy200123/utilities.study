@@ -13,12 +13,12 @@ export const NumberNotationPage = observer(() => {
                 <select value={NumberNotationConversionStore.instance.currentNotation} onChange={e => {
                     NumberNotationConversionStore.instance.setCurrentNotation(Number(e.target.value));
                 }}>
-                    {NumberNotationConversionStore.instance.notations.map(e => <option value={e}>{e}</option>)}
+                    {NumberNotationConversionStore.instance.notations.map(e => <option key={e} value={e}>{e}</option>)}
                 </select>
-                <select value={NumberNotationConversionStore.instance.destinationNotation} onChange={e => {
-                    NumberNotationConversionStore.instance.setDestinationNotation(Number(e.target.value));
+                <select value={NumberNotationConversionStore.instance.newNotation} onChange={e => {
+                    NumberNotationConversionStore.instance.setNewNotation(Number(e.target.value));
                 }}>
-                    {NumberNotationConversionStore.instance.notations.map(e => <option value={e}>{e}</option>)}
+                    {NumberNotationConversionStore.instance.notations.map(e => <option key={e} value={e}>{e}</option>)}
                 </select>
                 <input value={NumberNotationConversionStore.instance.numberToConvert} onChange={e => {
                     NumberNotationConversionStore.instance.setNumberToConvert(e.target.value);

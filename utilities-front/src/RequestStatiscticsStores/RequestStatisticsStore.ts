@@ -1,62 +1,56 @@
-import {action, autorun, makeObservable, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import {RequestStatisticsTransport} from "./RequestStatisticsTransports/RequestStatisticsTransport";
 import {IRequestStatistics} from "./Contracts/IRequestStatistics";
-import {RequestStatisticsFetchingType} from "./Contracts/RequestStatisticsFetchingType";
+import {RequestStatisticsType} from "./Contracts/RequestStatisticsType";
 import {v4 as createUuid} from 'uuid';
+import {MessageStore} from "../MessageStores/MessageStore";
 
 export class RequestStatisticsStore {
     private static _instance: RequestStatisticsStore;
+    private readonly __messageStore: MessageStore;
 
-    fetchingType: RequestStatisticsFetchingType = RequestStatisticsFetchingType.byRequest;
+    requestStatisticsType: RequestStatisticsType = RequestStatisticsType.byRequest;
     requestStatistics: IRequestStatistics[] = [];
     needFetching: boolean = false;
 
-    constructor() {
+    constructor(messageStore: MessageStore) {
+        this.__messageStore = messageStore;
+
         makeObservable(this, {
-            fetchingType: observable,
+            requestStatisticsType: observable,
             requestStatistics: observable,
             needFetching: observable,
             getRequestStatistics: action,
             setRequestStatistics: action,
         });
 
-        autorun(() => {
-            if (this.needFetching) {
-                if (this.fetchingType === RequestStatisticsFetchingType.byRequest) {
-                    this.getRequestStatistics().finally(() => {
-                        this.setFetching(false);
-                    })
-                }
-            }
-        });
+        this.getRequestStatistics();
     }
 
     static get instance() {
         if (!this._instance)
-            this._instance = new RequestStatisticsStore();
+            this._instance = new RequestStatisticsStore(MessageStore.instance);
         return this._instance;
     }
 
-    async getRequestStatistics() {
-        try {
-            const requestStatistics = await RequestStatisticsTransport.getTopRequests();
-
-            this.setRequestStatistics(requestStatistics.map(e => {
+    getRequestStatistics() {
+        RequestStatisticsTransport
+            .getTopRequests()
+            .then(requestStatistics => this.setRequestStatistics(requestStatistics.map(e => {
                 return {
                     id: createUuid() as string,
                     ...e,
                 }
-            }));
-        } catch {
-            throw new Error("Не удалось загрузить утилиты");
-        }
+            })))
+            .catch(() => this.__messageStore.addErrorMessage('Не удалось загрузить статистику по запросам'));
     }
 
     setRequestStatistics(requestStatistics: IRequestStatistics[]) {
         this.requestStatistics = requestStatistics;
     }
 
-    setFetching(value: boolean) {
-        this.needFetching = value;
+    setRequestStatisticsType(value: RequestStatisticsType) {
+        this.requestStatisticsType = value;
+        this.getRequestStatistics();
     }
 }

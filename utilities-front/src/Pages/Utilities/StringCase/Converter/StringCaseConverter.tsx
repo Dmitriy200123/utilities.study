@@ -11,7 +11,7 @@ export const StringCaseConverter = observer((props: { className: string }) => {
                    onChange={e => StringCaseStore.instance.convert(e.target.value)}></input>
             <div className={'stringCaseConvertedStrings'}>
                 {StringCaseStore.instance.convertedStrings.map(e => {
-                    return <ConvertedString convertedString={e} className={'stringCaseConvertedString'}/>
+                    return <ConvertedString key={e.id} convertedString={e} className={'stringCaseConvertedString'}/>
                 })}
             </div>
         </div>

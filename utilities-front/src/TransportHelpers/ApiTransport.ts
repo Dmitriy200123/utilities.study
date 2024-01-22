@@ -37,7 +37,6 @@ export class ApiTransport {
             };
 
             return fetch(this.Url + url, request).then(response => response.ok ? response.json().then(json => {
-                console.log(json);
                 return toObject(json);
             }) : Promise.reject(response));
         } catch {

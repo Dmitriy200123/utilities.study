@@ -1,68 +1,63 @@
-import {action, autorun, makeObservable, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import {ConverterTransport} from "../ConverterTransports/ConverterTransport";
+import {MessageStore} from "../../MessageStores/MessageStore";
 
 export class NumberNotationConversionStore {
     private static _instance: NumberNotationConversionStore;
+    private readonly __messageStore: MessageStore;
 
     currentNotation: number = 10;
-    destinationNotation: number = 2;
+    newNotation: number = 2;
     numberToConvert: string = '10'
     convertedNumber: string = '';
-    needFetching: boolean = true;
     notations: number[] = [];
-    isFirstFetching: boolean = true;
 
-    constructor() {
+    constructor(messageStore: MessageStore) {
+        this.__messageStore = messageStore;
+
         makeObservable(this, {
-            destinationNotation: observable,
             currentNotation: observable,
+            newNotation: observable,
             numberToConvert: observable,
             convertedNumber: observable,
-            needFetching: observable,
-            setFetching: observable,
+            notations: observable,
             getNumberInNotation: action,
             setNumberInNotation: action,
             setNumberToConvert: action,
-            setDestinationNotation: action,
+            setNewNotation: action,
+            setNumberNotations: action,
+            setCurrentNotation: action,
+            getNumberNotations: action,
         });
 
-        autorun(() => {
-            if (this.isFirstFetching) {
-                this.getNumberNotations().finally(() => {
-                    this.isFirstFetching = false;
-                });
-            }
-            if (this.needFetching) {
-                this.getNumberInNotation().finally(() => {
-                    this.setFetching(false);
-                })
-            }
-        });
+        this.getNumberNotations();
+        this.getNumberInNotation();
     }
 
     static get instance() {
         if (!this._instance)
-            this._instance = new NumberNotationConversionStore();
+            this._instance = new NumberNotationConversionStore(MessageStore.instance);
         return this._instance;
     }
 
-    async getNumberInNotation() {
-        try {
-            const convertedString = await ConverterTransport.convertToNumberNotation({
-                currentNotation: this.currentNotation,
-                valueToNotation: this.numberToConvert,
-                newNotation: this.destinationNotation,
-            });
-
-            this.setNumberInNotation(convertedString.value);
-        } catch {
-            throw new Error("Не удалось преобразовать");
+    getNumberInNotation() {
+        if (this.numberToConvert) {
+            ConverterTransport
+                .convertToNumberNotation({
+                    currentNotation: this.currentNotation,
+                    valueToNotation: this.numberToConvert,
+                    newNotation: this.newNotation,
+                })
+                .then(convertedNumber => this.setNumberInNotation(convertedNumber.value))
+                .catch(() => this.__messageStore.addErrorMessage('Не удалось преобразовать данные'));
         }
     }
 
-    async getNumberNotations() {
-        const notations = await ConverterTransport.getNumberNotations();
-        this.setNumberNotations(notations);
+    getNumberNotations() {
+        ConverterTransport
+            .getNumberNotations()
+            .then(notations => this.setNumberNotations(notations))
+            .catch(() => this.__messageStore.addErrorMessage('Не удалось загрузить допустимые системы счисления'));
     }
 
     setNumberNotations(notations: number[]) {
@@ -73,19 +68,18 @@ export class NumberNotationConversionStore {
         this.convertedNumber = convertedString;
     }
 
-    setFetching(value: boolean) {
-        this.needFetching = value;
-    }
-
     setNumberToConvert(stringToConvert: string) {
         this.numberToConvert = stringToConvert;
+        this.getNumberInNotation();
     }
 
-    setDestinationNotation(notation: number) {
-        this.destinationNotation = notation;
+    setNewNotation(notation: number) {
+        this.newNotation = notation;
+        this.getNumberInNotation();
     }
 
     setCurrentNotation(notation: number) {
         this.currentNotation = notation;
+        this.getNumberInNotation();
     }
 }
