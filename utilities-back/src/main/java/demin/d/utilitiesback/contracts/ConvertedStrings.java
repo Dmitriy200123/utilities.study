@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 public class ConvertedStrings {
-    private List<ConvertedString> items;
+    private final List<ConvertedString> items;
 
     public ConvertedStrings(List<ConvertedString> items){
         this.items = items;
