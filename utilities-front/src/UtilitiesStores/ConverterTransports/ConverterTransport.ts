@@ -2,12 +2,13 @@ import {ApiTransport} from "../../TransportHelpers/ApiTransport";
 import {IConvertedStrings} from "./Contracts/IConvertedStrings";
 import {INumberNotationRequest} from "./Contracts/INumberNotationRequest";
 import {IStringBase64ConversionRequest} from "./Contracts/IStringBase64ConversionRequest";
+import {IBase64ConvertedString} from "./Contracts/IBase64ConvertedString";
 
 export class ConverterTransport extends ApiTransport {
     private static readonly _basePath: string = 'converters/';
 
     static convertString(stringToConvert: string) {
-        return this.post(`${this._basePath}/string-case`,
+        return this.post(`${this._basePath}string-case`,
             {stringToConvert},
             result => result as IConvertedStrings);
     }
@@ -26,6 +27,6 @@ export class ConverterTransport extends ApiTransport {
     static convertToBase64AndBack(request: IStringBase64ConversionRequest) {
         return this.post(`${this._basePath}base-64`,
             request,
-            result => result as string);
+            result => result as IBase64ConvertedString);
     }
 }
