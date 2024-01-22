@@ -9,7 +9,7 @@ export class UserStore {
     currentUser: IUser = {
         id: '',
         name: '',
-        image: ''
+        imageUrl: ''
     };
 
     constructor() {
@@ -18,6 +18,8 @@ export class UserStore {
             getCurrentUserInfo: action,
             setCurrenUser: action
         });
+
+        this.getCurrentUserInfo();
     }
 
     static get instance() {

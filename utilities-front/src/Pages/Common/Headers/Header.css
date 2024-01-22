@@ -13,11 +13,47 @@
 
 .requestStatisticsLink {
     margin-left: auto;
+
+}
+
+.requestStatisticsLink, .logoutLink {
     margin-right: 20px;
     text-decoration: none;
     color: #e2dfdf;
 }
 
-.requestStatisticsLink:hover {
+.requestStatisticsLink:hover, .logoutLink:hover {
     color: #ffffff;
+}
+
+.userInfo {
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-left: solid;
+    border-color: #b3b3b3;
+    margin-right: 5px;
+}
+
+.userInfo__name {
+    color: #c2c2c2;
+    display: inline-block;
+}
+
+.userInfo__image {
+    display: inline-block;
+    border-radius: 25px;
+    width: 40px;
+    height: 40px;
+}
+
+.logoutLogo {
+    width: 35px;
+    height: 35px;
+}
+
+.logoutLogo:hover {
+    fill: white;
 }

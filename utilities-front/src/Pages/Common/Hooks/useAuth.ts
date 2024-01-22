@@ -27,7 +27,7 @@ export const useAuth: () => IAuthInfo = () => {
                 return;
             })
             .finally(() => setLoading(false));
-    }, []);
+    }, [isLoading, isAuthorized]);
 
     return {
         isLoading: isLoading,

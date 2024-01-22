@@ -6,7 +6,7 @@ export class UserConverter {
         return {
             id: user.id,
             name: user.name,
-            image: user.email,
+            imageUrl: user.imageUrl,
         };
     }
 }
