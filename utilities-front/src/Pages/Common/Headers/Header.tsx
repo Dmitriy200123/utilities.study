@@ -17,7 +17,7 @@ export const Header = observer((props: IHeaderProps) => {
     return <header className="header">
         {props.needPageNavButton && <PageNavButton pageNavDirection={PageNavDirection.Previous} label='<'/>}
         <Link className='requestStatisticsLink' to={'/request-statistics'}
-              onClick={() => RequestStatisticsStore.instance.setNeedFetching(true)}>Request statistics</Link>
+              onClick={() => RequestStatisticsStore.instance.setNeedFetching(true, true)}>Request statistics</Link>
 
         <div className='userInfo'>
             <label className='userInfo__name'>{UserStore.instance.currentUser.name}</label>

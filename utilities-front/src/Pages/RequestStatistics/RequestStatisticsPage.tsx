@@ -7,8 +7,10 @@ import "./RequestStatisticsPageStyle.css";
 import {LoadingAnimation} from "../Common/LoadingAnimation/LoadingAnimation";
 
 export const RequestStatisticsPage = observer(() => {
-    if (RequestStatisticsStore.instance.needFetching)
-        return <LoadingAnimation/>
+    if (RequestStatisticsStore.instance.needFetching) {
+        if (RequestStatisticsStore.instance.fullReloading)
+            return <LoadingAnimation/>
+    }
 
     return (
         <div className="page requestStatisticsPage">

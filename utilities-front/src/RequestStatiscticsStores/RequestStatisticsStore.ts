@@ -4,7 +4,6 @@ import {IRequestStatistics} from "./Contracts/IRequestStatistics";
 import {RequestStatisticsType} from "./Contracts/RequestStatisticsType";
 import {v4 as createUuid} from 'uuid';
 import {MessageStore} from "../MessageStores/MessageStore";
-import {IRequestStatisticsInfo} from "./RequestStatisticsTransports/Contracts/IRequestStatisticsInfo";
 
 export class RequestStatisticsStore {
     private static _instance: RequestStatisticsStore;
@@ -13,6 +12,7 @@ export class RequestStatisticsStore {
     requestStatisticsType: RequestStatisticsType = RequestStatisticsType.byRequest;
     requestStatistics: IRequestStatistics[] = [];
     needFetching: boolean = false;
+    fullReloading: boolean = false;
 
     constructor(messageStore: MessageStore) {
         this.__messageStore = messageStore;
@@ -21,6 +21,7 @@ export class RequestStatisticsStore {
             requestStatisticsType: observable,
             requestStatistics: observable,
             needFetching: observable,
+            fullReloading: observable,
             getRequestStatistics: action,
             setRequestStatistics: action,
             setNeedFetching: action,
@@ -59,7 +60,7 @@ export class RequestStatisticsStore {
 
         request
             .catch(() => this.__messageStore.addErrorMessage('Не удалось загрузить статистику по запросам'))
-            .finally(() => this.setNeedFetching(false));
+            .finally(() => this.setNeedFetching(false, false));
     }
 
     setRequestStatistics(requestStatistics: IRequestStatistics[]) {
@@ -68,10 +69,11 @@ export class RequestStatisticsStore {
 
     setRequestStatisticsType(value: RequestStatisticsType) {
         this.requestStatisticsType = value;
-        this.setNeedFetching(true);
+        this.setNeedFetching(true, false);
     }
 
-    setNeedFetching(needFetching: boolean) {
+    setNeedFetching(needFetching: boolean, fullReloading: boolean) {
         this.needFetching = needFetching;
+        this.fullReloading = fullReloading;
     }
 }
